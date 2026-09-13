@@ -57,6 +57,13 @@ utils/config.py
 
  You can configure the models, input/output directories, and maximum tokens.
 
+
+```
+GRADIO_USER_NAME=set_desired_value
+GRADIO_USER_PASS=set_desired_value
+```
+ This will be login credentials for Gradio UI
+
  ## Run
 
 ```
