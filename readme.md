@@ -27,8 +27,8 @@
  ## Setup
 
 ```
-git clone <repository-url>
-cd <repository-directory>
+git clone https://github.com/joelsjoyt/meeting-minutes-summarizer.git
+cd meeting-minutes-summarizer-main
 
 uv sync
 ```
