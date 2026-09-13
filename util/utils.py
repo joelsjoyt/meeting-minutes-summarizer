@@ -10,6 +10,7 @@ import tempfile
 from util.config import MODELS_DIR, AUDIO_TRANSCRIBE_MODEL, LANGUAGE_MODEL
 import gc
 import torch
+from errors import ModelDownloadError
 
 
 logger = logging.getLogger(__name__)
@@ -105,8 +106,11 @@ def download_required_models() -> bool:
             return True
         else:
             return False
-    except RuntimeError:
+    except Exception as e:
         logger.exception("Model download failed")
+        raise ModelDownloadError(
+            "Unable to download model"
+        ) from e
         
         
 # def load_audio_file(path):
