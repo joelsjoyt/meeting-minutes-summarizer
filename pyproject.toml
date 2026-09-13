@@ -1,0 +1,18 @@
+[project]
+name = "audio_transcriber"
+version = "0.1.0"
+requires-python = ">=3.11"
+dependencies = [
+    "datasets==3.6.0",
+    "feedparser>=6.0.12",
+    "gradio>=5.47.2,<6.0",
+    "python-dotenv>=1.1.1",
+    "requests>=2.32.5",
+    "torch>=2.8.0",
+    "transformers>=4.56.2",
+    "huggingface_hub",
+    "bitsandbytes",
+    "accelerate",
+    "markdown2>=2.5.5",
+    "weasyprint>=70.0",
+]
