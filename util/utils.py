@@ -31,6 +31,16 @@ def clear_gpu_cache():
     gc.collect()
     torch.cuda.empty_cache()
     
+def get_device() -> str:
+    """Return CUDA device or raise an error if unavailable."""
+    if not torch.cuda.is_available():
+        raise RuntimeError(
+            "CUDA is required to run this application. "
+            "No CUDA-compatible GPU was detected."
+        )
+
+    return "cuda"
+    
     
 def download_models(model_repo) -> str:
     """ 
@@ -76,6 +86,7 @@ def download_models(model_repo) -> str:
         local_dir=str(model_dir),
     )
 
+    logger.info(f"✓ Model download complete: {model_repo}")
     return str(model_dir)
     
 
@@ -85,15 +96,19 @@ def download_required_models() -> bool:
     """
     
     logger.info("Downloading required models")
+    try:
+        audio_model_path = download_models(AUDIO_TRANSCRIBE_MODEL)
+        language_model_path = download_models(LANGUAGE_MODEL)
     
-    audio_model_path = download_models(AUDIO_TRANSCRIBE_MODEL)
-    language_model_path = download_models(LANGUAGE_MODEL)
-    
-    if audio_model_path and language_model_path:
-        return True
-    else:
-        return False
-    
+        if audio_model_path and language_model_path:
+            logger.info("Required models downloaded")
+            return True
+        else:
+            return False
+    except RuntimeError:
+        logger.exception("Model download failed")
+        
+        
 # def load_audio_file(path):
 #     """
 #     Loads audio file supplied via Gradio

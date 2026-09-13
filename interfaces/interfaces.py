@@ -37,15 +37,18 @@ def run_summarizer_pipeline(transcription) -> tuple[str,bytes]:
                                         messages=messages,
                                         max_new_output_tokens=MAX_NEW_TOKENS
                                         )
-        
-        if not finalized_minutes:
-            logger.error("Missing LLM response, absorting operation")
-        else:
-            logger.info("Proceding to PDF conversion")
-            pdf = markdown_to_pdf(finalized_minutes)
-            
-            if not pdf:
-                logger.error("Missing PDF, absorting operation")
+        try:
+            if not finalized_minutes:
+                logger.error("Missing LLM response, absorting operation")
             else:
-                logger.info("PDF generation complete")
-                return finalized_minutes, pdf
+                logger.info("Proceding to PDF conversion")
+                pdf = markdown_to_pdf(finalized_minutes)
+                
+                if not pdf:
+                    logger.error("Missing PDF, absorting operation")
+                else:
+                    logger.info("PDF generation complete")
+                    return finalized_minutes, pdf
+        except RuntimeError:
+            logger.exception("Minutes finalization failed")
+            raise RuntimeError("Minutes fininizaton errored")
