@@ -1,11 +1,17 @@
 import gradio as gr
+import logging
+import os
+from dotenv import load_dotenv
 from util.styles import gradio_style
 from interfaces.interfaces import run_audio_pipeline, run_summarizer_pipeline
+
+logger = logging.getLogger(__name__)
 
 def run_app_ui():
     """
     Gradio UI
     """
+    load_dotenv(override=True)
     
     with gr.Blocks(css=gradio_style) as ui:
         with gr.Column(elem_classes="main-container"):
@@ -32,4 +38,11 @@ def run_app_ui():
                 )
         
     # ui.launch(inbrowser=True, auth=("app", "abc"))
-    ui.launch(inbrowser=True)
+    
+    gradio_user_name = os.getenv('GRADIO_USER_NAME')
+    gradio_user_pass = os.getenv('GRADIO_USER_PASS')
+    
+    if not gradio_user_name and not gradio_user_pass:
+        logger.error("Restricted Access...")
+    else:
+        ui.launch(inbrowser=True, auth=(gradio_user_name, gradio_user_pass))

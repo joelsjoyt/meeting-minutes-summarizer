@@ -12,16 +12,22 @@ import gc
 import torch
 
 
+logger = logging.getLogger(__name__)
+
+
 def login_HF() -> None:
     """
     Login to Huggingface Hub to download gated or private models
     """
+    logger.info("Accessing Huggingface Hub")
     
     load_dotenv(override=True)
     hf_token = os.getenv('HF_TOKEN')
     login(hf_token, add_to_git_credential=True)
     
 def clear_gpu_cache():
+    logger.info("Cleaning GPU cache")
+    
     gc.collect()
     torch.cuda.empty_cache()
     
@@ -31,6 +37,8 @@ def download_models(model_repo) -> str:
     Use login_HF when model is gated or private
     This function downloads models if it does not exist
     """
+    
+    logger.info(f"Downloading {model_repo}")
     
     # login_HF()
     model_dir = Path(MODELS_DIR) / model_repo
@@ -52,10 +60,10 @@ def download_models(model_repo) -> str:
     # Check exact path:
     # models/openai/whisper-medium.en
     if organization_dir.is_dir() and model_dir.is_dir():
-        print(f"✓ Model already exists: {model_repo}")
+        logger.info(f"✓ Model already exists: {model_repo}")
         return str(model_dir)
     
-    print(f"↓ Downloading: {model_repo}")
+    logger.info(f"↓ Downloading: {model_repo}")
 
     # Creates:
     # models/
@@ -75,6 +83,8 @@ def download_required_models() -> bool:
     """
     This function downloads required models for this app
     """
+    
+    logger.info("Downloading required models")
     
     audio_model_path = download_models(AUDIO_TRANSCRIBE_MODEL)
     language_model_path = download_models(LANGUAGE_MODEL)
@@ -97,7 +107,6 @@ def setup_logger(root) -> None:
     """
     Initialize logger
     """
-    
     root.setLevel(logging.INFO)
     handler = logging.StreamHandler(sys.stdout)
     handler.setLevel(logging.INFO)
@@ -115,11 +124,14 @@ def markdown_to_pdf(md):
     This converts markdown response to pdf to be downloaded
     """
     
+    logger.info("Inside markdown_to_pdf function")
+    logger.info("Converting to HTML")
     html = markdown2.markdown(
         md,
         extras=["tables", "fenced-code-blocks"]
     )
-
+    
+    logger.info("Converting to PDF")
     pdf_file = tempfile.NamedTemporaryFile(
         suffix=".pdf",
         delete=False
@@ -127,9 +139,13 @@ def markdown_to_pdf(md):
 
     HTML(string=html).write_pdf(pdf_file.name)
 
+    logger.info("PDF conversion complete")
     return pdf_file.name
 
 def clean_response(response):
+    
+    logger.info("Cleaning LLM response")
+    
     if "</think>" in response:
         response = response.split("</think>", 1)[1]
 
