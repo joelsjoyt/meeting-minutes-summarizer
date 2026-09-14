@@ -180,7 +180,13 @@ Meeting minutes (.pdf)
  ## 🔄 Project Architecture
 
 
-![Processing Pipeline](./processing-pipeline.svg)
+<div align="center">
+  <img
+    src="./processing-pipeline.svg"
+    alt="Processing Pipeline"
+    width="350"
+  />
+</div>
 
 
 ---
