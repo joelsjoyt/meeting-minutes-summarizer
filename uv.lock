@@ -1276,7 +1276,7 @@ wheels = [
 ]
 
 [[package]]
-name = "meeting-minutes-sumamriser"
+name = "meeting-minutes-summariser"
 version = "0.1.0"
 source = { virtual = "." }
 dependencies = [

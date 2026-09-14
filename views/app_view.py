@@ -52,7 +52,7 @@ def run_app_ui():
         if not gradio_user_name and not gradio_user_pass:
             raise ApplicationUIError("Gradio credentials are not configured")
       
-        ui.launch(inbrowser=True, auth=(gradio_user_name, gradio_user_pass))
+        ui.launch(inbrowser=True, auth=(gradio_user_name, gradio_user_pass), server_name="0.0.0.0")
             
         
     except ApplicationUIError:
