@@ -177,43 +177,11 @@ Meeting minutes (.pdf)
 
 ---
 
- ## 🔄 Processing Pipeline
+ ## 🔄 Project Architecture
 
-```
-┌──────────────────────┐
-│  MP3 Meeting Audio   │
-└──────────┬───────────┘
-           │
-           ▼
-┌──────────────────────┐
-│  Whisper Transcriber │
-└──────────┬───────────┘
-           │
-           ▼
-┌──────────────────────┐
-│      Transcript      │
-└──────────┬───────────┘
-           │
-           ▼
-┌──────────────────────┐
-│ DeepSeek Summariser  │
-└──────────┬───────────┘
-           │
-           ▼
-┌──────────────────────┐
-│  Structured Minutes  │
-└──────────┬───────────┘
-           │
-           ▼
-┌──────────────────────┐
-│     PDF Generator    │
-└──────────┬───────────┘
-           │
-           ▼
-┌──────────────────────┐
-│ Downloadable PDF     │
-└──────────────────────┘
-```
+
+![Processing Pipeline](./processing-pipeline.svg)
+
 
 ---
 
