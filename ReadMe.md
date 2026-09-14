@@ -35,7 +35,7 @@ The application uses **Whisper** for transcription and **DeepSeek** for summaris
 
 ### Native Installation
 
-- 🐍 Python 3.10+
+- 🐍 Python 3.11+
 - 📦 [UV](https://docs.astral.sh/uv/)
 - 🎞️ FFmpeg
 - 🖥️ CUDA-compatible NVIDIA GPU
